@@ -1,0 +1,54 @@
+from datetime import datetime
+from sqlmodel import Field, SQLModel, create_engine, Session, select
+from sqlalchemy import Column, String, ForeignKey
+from models import *
+
+engine = create_engine("postgresql://postgres:1234@localhost:5432/postgres")
+SQLModel.metadata.create_all(engine)
+
+# Запрос списка автомобилей
+def select_cars():    
+    with Session(engine) as session:
+        # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
+        statement = select(cars, models, brands).join(models, cars.models_id == models.id).join(brands, models.brands_id == brands.id)
+        
+        results = session.exec(statement)
+        #print(results)
+        for car, model, brand in results:
+            print(car.vin_code, car.car_reg_plate, model.name_models, brand.name)
+
+def select_available_cars():    
+    with Session(engine) as session:
+        # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
+        statement = select(cars, models, brands, status_table_car)\
+                        .join(status_table_car, status_table_car.status_id == cars.status_id)\
+                        .join(models, cars.models_id == models.id)\
+                        .join(brands, models.brands_id == brands.id)\
+                        .where(status_table_car.status_name == 'Available')
+        
+        results = session.exec(statement)
+        #print(results)
+        for car, model, brand, status in results:
+            print(car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name)
+
+def select_available_cars_and_rentend_cars():    
+    with Session(engine) as session:
+        # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
+        statement = select(cars, models, brands, status_table_car)\
+                        .join(status_table_car, status_table_car.status_id == cars.status_id)\
+                        .join(models, cars.models_id == models.id)\
+                        .join(brands, models.brands_id == brands.id)\
+                        .where(status_table_car.status_name == 'Available' or cars.date_available != None)
+        
+        results = session.exec(statement)
+        #print(results)
+        for car, model, brand, status in results:
+            print(car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name, ' | ',car.date_available)
+
+
+
+
+select_cars()
+print('-'*20)
+select_available_cars()
+select_available_cars_and_rentend_cars()
