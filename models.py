@@ -43,8 +43,13 @@ class brands(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
 
+class status_table_office(SQLModel, table=True):
+    status_id: Optional[int] = Field(default=None, primary_key=True)
+    status_name: str
+
 class office(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    office_status_id: int = Field(default=None,foreign_key="status_table_office.status_id")
     index: int  # test
     name : str
     adress: str    

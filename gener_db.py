@@ -64,11 +64,20 @@ session.add_all([user1, user2, user3])
 session.commit()
 map(session.refresh, [user1, user2, user3])
 
+# Добавляем статусы офисов
+status_office_1 = status_table_office(status_name="Work")
+status_office_2 = status_table_office(status_name="Building")
+status_office_3 = status_table_office(status_name="Closed")
+
+session.add_all([status_office_1, status_office_2, status_office_3])
+session.commit()
+
+
 
 # Добавляем офисы
-office1 = office(name="Downtown")
-office2 = office(name="Airport")
-office3 = office(name="Suburb")
+office1 = office(name="Downtown", office_status_id=status_office_1.status_id)
+office2 = office(name="Airport", office_status_id=status_office_1.status_id)
+office3 = office(name="Suburb", office_status_id=status_office_2.status_id)
 
 session.add_all([office1, office2, office3])
 session.commit()

@@ -31,7 +31,7 @@ def select_available_cars():
         for car, model, brand, status in results:
             print(car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name)
 
-def select_available_cars_and_rentend_cars():    
+def select_available_cars_and_rent_end_cars():    
     with Session(engine) as session:
         # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
         statement = select(cars, models, brands, status_table_car)\
@@ -45,10 +45,25 @@ def select_available_cars_and_rentend_cars():
         for car, model, brand, status in results:
             print(car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name, ' | ',car.date_available)
 
+def select_adress_pickup():    
+    with Session(engine) as session:
+        # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
+        statement = select(office, status_table_office)\
+                        .join(status_table_office)\
+                        .where(status_table_office.status_name == 'Work')
+        
+        results = session.exec(statement)
+        #print(results)
+        for offic, status in results:
+            print(offic, status)
+
 
 
 
 select_cars()
 print('-'*20)
 select_available_cars()
-select_available_cars_and_rentend_cars()
+print('-'*20)
+select_available_cars_and_rent_end_cars()
+print('-'*20)
+select_adress_pickup()
