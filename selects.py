@@ -15,7 +15,7 @@ def select_cars():
         results = session.exec(statement)
         #print(results)
         for car, model, brand in results:
-            print(car.vin_code, car.car_reg_plate, model.name_models, brand.name)
+            print(car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, car.status_id)
 
 def select_available_cars():    
     with Session(engine) as session:
@@ -57,6 +57,22 @@ def select_adress_pickup():
         for offic, status in results:
             print(offic, status)
 
+def bron_rent_car(car_id):
+    with Session(engine) as session:
+        statement_car = select(cars, status_table_car)\
+                        .join(status_table_car)\
+                        .where(cars.id == car_id)
+        
+        statement_status = select(status_table_car.status_id)\
+                        .where(status_table_car.status_name == 'Rented')
+        
+        results = session.exec(statement_car)
+        result_status = session.exec(statement_status).first()
+        
+        for car in results:
+            print(car)
+            car.status_id = result_status
+            session.commit()
 
 
 
@@ -67,3 +83,5 @@ print('-'*20)
 select_available_cars_and_rent_end_cars()
 print('-'*20)
 select_adress_pickup()
+print('-'*20)
+bron_rent_car(4)

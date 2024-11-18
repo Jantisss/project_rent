@@ -50,6 +50,7 @@ car3 = cars(vin_code="2HNYD18896H000000", car_reg_plate="GHI789", status_id=stat
 car4 = cars(vin_code="3HNYD12464H000000", car_reg_plate="IHO789", status_id=status_car1.status_id, models_id=model4.id)
 car5 = cars(vin_code="4HNYD18246H000000", car_reg_plate="YAI789", status_id=status_car1.status_id, models_id=model1.id)
 
+
 session.add_all([car1, car2, car3, car4, car5])
 session.commit()
 map(session.refresh, [car1, car2, car3, car4, car5])
@@ -71,6 +72,7 @@ status_office_3 = status_table_office(status_name="Closed")
 
 session.add_all([status_office_1, status_office_2, status_office_3])
 session.commit()
+map(session.refresh, [status_office_1, status_office_2, status_office_3])
 
 
 
