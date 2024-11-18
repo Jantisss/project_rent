@@ -13,12 +13,14 @@ CREATE TABLE IF NOT EXISTS "cars" (
 	"id" SERIAL NOT NULL,
 	"model_id" bigint NOT NULL,
 	"date_available" DATE,
+	"cost_day" INT,
 	PRIMARY KEY ("id")
 );
 
 CREATE TABLE IF NOT EXISTS "orders" (
 	"orders_id" SERIAL NOT NULL,
 	"car_id" bigint NOT NULL,
+	"sum" bigint NOT NULL,
 	"user_id" bigint NOT NULL,
 	"orders_status_id" bigint NOT NULL,
 	"office_id" bigint NOT NULL,

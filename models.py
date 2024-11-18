@@ -11,6 +11,7 @@ class users(SQLModel, table=True):
 class cars(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     vin_code: str
+    cost_day : int
     car_reg_plate: str
     date_available: date
     status_id: int = Field(foreign_key="status_table_car.status_id")
@@ -19,6 +20,7 @@ class cars(SQLModel, table=True):
 class orders(SQLModel, table=True):
     orders_id: Optional[int] = Field(default=None, primary_key=True)
     car_id: int = Field(foreign_key="cars.id")
+    sum: int
     user_id: int = Field(foreign_key="users.id")
     orders_status_id: int = Field(foreign_key="status_table_order.status_id")
     office_id: int = Field(foreign_key="office.id")

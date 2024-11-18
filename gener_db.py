@@ -97,13 +97,13 @@ map(session.refresh, [status_order1, status_order2, status_order3])
 
 # Добавляем заказы
 order1 = orders(car_id=car1.id, user_id=user1.id, orders_status_id=status_order1.status_id, office_id=office1.id, date_time_reg=datetime.now(), 
-                date_start=date.today() + timedelta(days = 5),
+                date_start=date.today() + timedelta(days = 5), sum = 123,
                 date_end=date.today() + timedelta(days = 7))
 order2 = orders(car_id=car2.id, user_id=user2.id, orders_status_id=status_order2.status_id, office_id=office2.id, date_time_reg=datetime.now(), 
-                date_start=date.today() + timedelta(days = 5),
+                date_start=date.today() + timedelta(days = 5), sum = 321,
                 date_end=date.today() + timedelta(days = 7))
 order3 = orders(car_id=car3.id, user_id=user3.id, orders_status_id=status_order3.status_id, office_id=office3.id, date_time_reg=datetime.now(), 
-                date_start=date.today() + timedelta(days = 5),
+                date_start=date.today() + timedelta(days = 5), sum = 223,
                 date_end=date.today() + timedelta(days = 7))
 
 car1.date_available = date.today() + timedelta(days = 7)
