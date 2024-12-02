@@ -555,9 +555,14 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const carsList = document.querySelector(".grid");
-
+  
     fetch("http://127.0.0.1:8000/selects/cars")
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
       .then(data => {
         data.forEach(car => {
           const carCard = document.createElement("div");
@@ -569,6 +574,8 @@
             <p class="${car[5] === 'Available' ? 'text-green-500' : 'text-red-500'}">${car[5]}</p>
           `;
           carsList.appendChild(carCard);
+        }).catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
         });
       });
   });

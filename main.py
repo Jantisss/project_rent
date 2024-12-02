@@ -4,6 +4,15 @@ from models import *
 from selects import *
 from pydantic import BaseModel
 
+from flask import Flask, render_template
+
+appf = Flask(__name__)
+
+@appf.route('/')
+def home():
+    return render_template('index.html')
+
+
 engine = create_engine("postgresql://postgres:1234@localhost:5432/postgres")
 SQLModel.metadata.create_all(engine)
 
@@ -61,3 +70,7 @@ def create_new_order(
         date_e = datetime.today() + timedelta(days=1)
     create_order(car_id, user_id, cost_day, date_s, date_e, office_id)
     return {"message": f"Order created for car ID {car_id}, user ID {user_id}."}
+
+
+if __name__ == "__main__":
+    appf.run(debug=True)
