@@ -2,11 +2,13 @@ from typing import Union
 from fastapi import FastAPI
 from models import *
 from selects import *
+from flask_cors import CORS
 from pydantic import BaseModel
-
+from fastapi.middleware.cors import CORSMiddleware
 from flask import Flask, render_template
 
 appf = Flask(__name__)
+CORS(appf)
 
 @appf.route('/')
 def home():
@@ -17,7 +19,21 @@ engine = create_engine("postgresql://postgres:1234@localhost:5432/postgres")
 SQLModel.metadata.create_all(engine)
 
 app = FastAPI()
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://127.0.0.1:5000"
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
