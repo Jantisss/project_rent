@@ -19,17 +19,11 @@ engine = create_engine("postgresql://postgres:1234@localhost:5432/postgres")
 SQLModel.metadata.create_all(engine)
 
 app = FastAPI()
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-    "http://127.0.0.1:5000"
-]
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

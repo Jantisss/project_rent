@@ -11,12 +11,15 @@ def select_cars():
     with Session(engine) as session:
         mass_return = []
         # statement = select(cars, models, brands).where(cars.models_id == models.id and models.brands_id == brands.id)
-        statement = select(cars, models, brands).join(models, cars.models_id == models.id).join(brands, models.brands_id == brands.id)
+        statement = select(cars, models, brands, status_table_car)\
+            .join(models, cars.models_id == models.id)\
+            .join(brands, models.brands_id == brands.id)\
+            .join(status_table_car, status_table_car.status_id == cars.status_id)
         
         results = session.exec(statement)
         #print(results)
-        for car, model, brand in results:
-            mass_return.append((car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, car.status_id))
+        for car, model, brand, status in results:
+            mass_return.append((car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name))
         session.close()
         return mass_return
 

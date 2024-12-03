@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Webcrumbs Plugin</title>
+    <title>Car rent company</title>
     <style>
       @import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
       
@@ -545,8 +545,79 @@
   </head>
   <body>
   <div id="webcrumbs">
-    <div class="w-[1280px] min-h-[800px] bg-white rounded-lg shadow-lg"> <nav class="flex items-center justify-between bg-blue-500 p-4 rounded-t-lg text-white"> <h1 class="font-title text-xl">Система аренды автомобилей</h1> <ul class="flex gap-8"> <li class="cursor-pointer">Автомобили</li> <li class="cursor-pointer">Заказы</li> <li class="cursor-pointer">Отчёты</li> </ul> </nav> <main class="p-6"> <section class="mb-8"> <h2 class="font-title text-2xl text-neutral-950 mb-4">Добро пожаловать!</h2> <p class="text-neutral-600">Используйте фильтры ниже для поиска доступных автомобилей.</p> </section> <section class="mb-8"> <h3 class="text-xl text-neutral-950 mb-4">Список автомобилей</h3> <div class="flex items-center gap-4 mb-6"> <select class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950"> <option>Марка</option> <option>BMW</option> <option>Toyota</option> <option>Mercedes</option> </select> <select class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950"> <option>Модель</option> <option>Model 1</option> <option>Model 2</option> <option>Model 3</option> </select> <select class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950"> <option>Статус</option> <option>Доступен</option> <option>Арендован</option> </select> </div> <div class="grid grid-cols-3 gap-6"> <div class="border p-4 rounded-md"> <img src="https://tools-api.webcrumbs.org/image-placeholder/300/200/cars/1" alt="Car" class="w-full h-[150px] object-cover rounded-md mb-4"/> <h4 class="text-lg text-neutral-950">BMW X5</h4> <p class="text-neutral-600">VIN: XXXXXXXX123</p> <p class="text-neutral-600">Рег. номер: А123ВС</p> <p class="text-green-500">Доступен</p> <p class="text-neutral-950 font-bold mt-2">Цена: 5000 ₽/день</p> <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Оформить аренду</button> </div> <div class="border p-4 rounded-md"> <img src="https://tools-api.webcrumbs.org/image-placeholder/300/200/cars/2" alt="Car" class="w-full h-[150px] object-cover rounded-md mb-4"/> <h4 class="text-lg text-neutral-950">Mercedes C-Class</h4> <p class="text-neutral-600">VIN: XXXXXXXX345</p> <p class="text-neutral-600">Рег. номер: Б456ВС</p> <p class="text-red-500">Арендован</p> <p class="text-neutral-950 font-bold mt-2">Цена: 7000 ₽/день</p> <button class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md" disabled=""> Недоступен </button> </div> <div class="border p-4 rounded-md"> <img src="https://tools-api.webcrumbs.org/image-placeholder/300/200/cars/3" alt="Car" class="w-full h-[150px] object-cover rounded-md mb-4"/> <h4 class="text-lg text-neutral-950">Toyota Corolla</h4> <p class="text-neutral-600">VIN: XXXXXXXX678</p> <p class="text-neutral-600">Рег. номер: В789ВС</p> <p class="text-green-500">Доступен</p> <p class="text-neutral-950 font-bold mt-2">Цена: 3000 ₽/день</p> <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Оформить аренду</button> </div> </div> </section> <section> <h3 class="text-xl text-neutral-950">Оформление аренды</h3> <form class="grid gap-4 mt-6"> <select class="p-2 rounded-md bg-neutral-100 w-[300px] text-neutral-950"> <option>Выберите автомобиль</option> <option>BMW X5</option> <option>Mercedes C-Class</option> <option>Toyota Corolla</option> </select> <div class="grid grid-cols-2 gap-4"> <input type="date" class="p-2 rounded-md bg-neutral-100 text-neutral-950"/> <input type="date" class="p-2 rounded-md bg-neutral-100 text-neutral-950"/> </div> <select class="p-2 rounded-md bg-neutral-100 w-[300px] text-neutral-950"> <option>Офис выдачи</option> <option>Москва</option> <option>Санкт-Петербург</option> <option>Казань</option> </select> <button class="mt-4 px-6 py-3 bg-blue-500 text-white rounded-md w-fit"> Подтвердить заказ </button> </form> </section> </main> </div>
+    <div class="w-[1280px] min-h-[800px] bg-white rounded-lg shadow-lg">
+      <nav class="flex items-center justify-between bg-blue-500 p-4 rounded-t-lg text-white">
+        <h1 class="font-title text-xl">Система аренды автомобилей</h1>
+        <ul class="flex gap-8">
+          <li class="cursor-pointer">Автомобили</li>
+          <li class="cursor-pointer">Заказы</li>
+          <li class="cursor-pointer">Отчёты</li>
+        </ul>
+      </nav>
+      <main class="p-6">
+        <section class="mb-8">
+          <h2 class="font-title text-2xl text-neutral-950 mb-4">Добро пожаловать!</h2>
+          <p class="text-neutral-600">
+            Используйте фильтры ниже для поиска доступных автомобилей.
+          </p>
+        </section>
+        <section class="mb-8">
+        <h3 class="text-xl text-neutral-950 mb-4">Список автомобилей</h3>
+        <div class="flex items-center gap-4 mb-6">
+          <select id="brand-select" class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950">
+            <option>Загрузка...</option>
+          </select>
+          <select id="model-select" class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950">
+            <option>Модель</option>
+            <option>Model 1</option>
+            <option>Model 2</option>
+            <option>Model 3</option>
+          </select>
+          <select class="p-2 rounded-md bg-neutral-100 w-[200px] text-neutral-950">
+            <option>Статус</option>
+            <option>Доступен</option>
+            <option>Арендован</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-3 gap-6">
+          <!-- Список автомобилей -->
+        </div>
+        </section>
+        <script src="{{ url_for('static', filename='scripts/fetch-cars.js') }}"></script>
 
+        <section>
+          <h3 class="text-xl text-neutral-950">Оформление аренды</h3>
+          <form class="grid gap-4 mt-6">
+            <select class="p-2 rounded-md bg-neutral-100 w-[300px] text-neutral-950">
+              <option>Выберите автомобиль</option>
+              <option>BMW X5</option>
+              <option>Mercedes C-Class</option>
+              <option>Toyota Corolla</option>
+            </select>
+            <div class="grid grid-cols-2 gap-4">
+              <input
+                type="date"
+                class="p-2 rounded-md bg-neutral-100 text-neutral-950"
+              />
+              <input
+                type="date"
+                class="p-2 rounded-md bg-neutral-100 text-neutral-950"
+              />
+            </div>
+            <select class="p-2 rounded-md bg-neutral-100 w-[300px] text-neutral-950">
+              <option>Офис выдачи</option>
+              <option>Москва</option>
+              <option>Санкт-Петербург</option>
+              <option>Казань</option>
+            </select>
+            <button class="mt-4 px-6 py-3 bg-blue-500 text-white rounded-md w-fit">
+              Подтвердить заказ
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+    
 
   </div>
   </body>
@@ -575,9 +646,8 @@
             <p class="${car[5] === 'Available' ? 'text-green-500' : 'text-red-500'}">${car[5]}</p>
           `;
           carsList.appendChild(carCard);
-        }).catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-        });
+        })
+        
       });
   });
 </script>
