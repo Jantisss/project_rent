@@ -568,7 +568,8 @@
           const carCard = document.createElement("div");
           carCard.classList.add("border", "p-4", "rounded-md");
           carCard.innerHTML = `
-            <h4 class="text-lg text-neutral-950">${car[3]}</h4>
+            <img src=${car[6]} alt=${car[3]} class="w-full h-[150px] object-cover rounded-md mb-4">
+            <h4 class="text-lg text-neutral-950">${car[4]} ${car[3]}</h4>
             <p class="text-neutral-600">VIN: ${car[1]}</p>
             <p class="text-neutral-600">Рег. номер: ${car[2]}</p>
             <p class="${car[5] === 'Available' ? 'text-green-500' : 'text-red-500'}">${car[5]}</p>
