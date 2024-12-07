@@ -2,7 +2,7 @@
 const brandSelect = document.getElementById("brand-select");
 const modelSelect = document.getElementById("model-select");
 const modelSelect2 = document.getElementById("model-select2");
-
+const statusSelect = document.getElementById("status");
 const carsList    = document.getElementById("list-car");
 
 // URL API для получения списка марок
@@ -17,19 +17,18 @@ async function fetchCarBrands() {
     }
 
     const json_q = await response.json();
-    let brands = new Set();
-    let models = new Set()
-
-    json_q.forEach((json_1) =>{
-      brands.add(json_1[4])
-      models.add(json_1[4] + ', ' +json_1[3])
-    })
+    let brands, models;
+    brands = json_2_bm(json_q)[0];
+    models = json_2_bm(json_q)[1];
     console.log(brands, models)
     populateBrands(brands);
     populateModels(models);
     populateCars(json_q);
 
     brandSelect.addEventListener('change', () => filterCars_brand(json_q))
+    modelSelect.addEventListener('change', () => filterCars_model(json_q))
+    statusSelect.addEventListener('change', () => filterStatus(json_q))
+
     
   } catch (error) {
     console.error("Ошибка:", error);
@@ -79,6 +78,18 @@ function populateCars(data) {
   });
 }
 
+function json_2_bm(json) {
+    var brands = new Set();
+    var models = new Set()
+
+    json.forEach((json_1) =>{
+      brands.add(json_1[4])
+      models.add(json_1[3])
+    })
+    console.log(brands,models);
+  return [brands, models]
+}
+
 function filterCars_brand(data) {
   
   brandItem = data;
@@ -92,12 +103,59 @@ function filterCars_brand(data) {
 
   } else {
     filtered_brands = brandItem.filter(car => car[4] === select_brand);
-    console.log("bbb");
+    console.log("bbb", select_brand);
 
   }
   
   populateCars(filtered_brands);
+  filtered_models = json_2_bm(filtered_brands)[1];
+  populateModels(filtered_models);
+}
 
+function filterCars_model(data) {
+  
+  modelsItem = data;
+  
+
+  const select_model = modelSelect.value
+  
+
+  let filtered_models;
+  console.log(data, select_model);
+
+  if (select_model === 'Выберите модель'){
+    filtered_models = modelsItem;
+    console.log("aaa", filtered_models);
+
+  } else {
+    filtered_models = modelsItem.filter(car => car[3] === select_model);
+    console.log("bbb", filtered_models);
+  }
+  
+  populateCars(filtered_models);
+}
+
+function filterStatus(data) {
+  Item = data;
+  let select_status;
+  const select_status_1 = statusSelect.value
+
+  if (select_status_1 === 'Доступен') select_status = 'Available';
+  else if ((select_status_1 === 'Арендован')) select_status = 'Rented';
+  else if ((select_status_1 === 'На ремонте')) select_status = 'In Service';
+
+  let filtered_data;
+  console.log(data, select_status);
+
+  if (select_status === 'Статус'){
+    filtered_data = Item;
+    console.log("aaa", filtered_data);
+
+  } else {
+    filtered_data = Item.filter(car => car[5] === select_status);
+    console.log("bbb", filtered_data);
+  }
+  populateCars(filtered_data)
 }
 // Загружаем данные при загрузке страницы
 document.addEventListener("DOMContentLoaded", fetchCarBrands);

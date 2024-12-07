@@ -2,17 +2,10 @@ from typing import Union
 from fastapi import FastAPI
 from models import *
 from selects import *
-from flask_cors import CORS
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from flask import Flask, render_template
 
-appf = Flask(__name__)
-CORS(appf)
 
-@appf.route('/')
-def home():
-    return render_template('index.html')
 
 
 engine = create_engine("postgresql://postgres:1234@localhost:5432/postgres")
@@ -82,5 +75,3 @@ def create_new_order(
     return {"message": f"Order created for car ID {car_id}, user ID {user_id}."}
 
 
-if __name__ == "__main__":
-    appf.run(debug=True)
