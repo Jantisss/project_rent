@@ -80,11 +80,12 @@ def select_adress_pickup():
         
         results = session.exec(statement)
         #return (results)
-        for offic, status in results:
-            mass_return.append((offic, status))
+        for offices, status in results:
+            mass_return.append((offices.id, offices.name, offices.adress, offices.index, status.status_name))
+        session.close()
         return mass_return
 
-        session.close()
+        
 
 def bron_rent_car(car_id):
     with Session(engine) as session:
