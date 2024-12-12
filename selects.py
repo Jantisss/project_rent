@@ -19,7 +19,7 @@ def select_cars():
         results = session.exec(statement)
         #print(results)
         for car, model, brand, status in results:
-            mass_return.append((car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name))
+            mass_return.append((car.id,car.vin_code, car.car_reg_plate, model.name_models, brand.name, status.status_name, car.cost_day))
         session.close()
         return mass_return
 
@@ -107,7 +107,7 @@ def bron_rent_car(car_id):
         
         session.close()
 
-def create_order(car_id, user_id, cost_day = 0, 
+def create_order(car_id, user_tel, cost_day = 0, 
                  date_s = date.today(), 
                  date_e = date.today() + timedelta(days = 1),
                  office_id = 1):
@@ -122,9 +122,22 @@ def create_order(car_id, user_id, cost_day = 0,
         statement_status_car = select(status_table_car.status_id)\
                         .where(status_table_car.status_name == 'Rented')
         
+        statement_user = select(users)\
+                        .where(users.tel_number == str(user_tel))
+        
+        
         result_status = session.exec(statement_status).first()
         result_car = session.exec(statement_car).one()
         result_status_car = session.exec(statement_status_car).first()
+        result_user = session.exec(statement_user).first()
+        
+        print("res_user", result_user, )
+        if result_user == None:
+            create_user(user_id)
+        result_user = session.exec(statement_user).first()
+        user_id = result_user.id
+        
+        
 
         cost_day = result_car.cost_day if result_car.cost_day else cost_day
         
@@ -143,6 +156,17 @@ def create_order(car_id, user_id, cost_day = 0,
         session.close()
 
         return True
+    
+def create_user(user_id):
+    
+    with Session(engine) as session:
+        user = users(tel_number=user_id)
+        session.add(user)
+        session.commit()
+        session.close()
+
+        return True
+
         
 if __name__ == '__main__':
     select_cars()
@@ -155,6 +179,9 @@ if __name__ == '__main__':
     print('-'*20)
     bron_rent_car(4)
     print('-'*20)
-    create_order(5,1,123, date.today(), date.today()+ timedelta(days=5))
+    #create_order(5,1,123, date.today(), date.today()+ timedelta(days=5))
     print('-'*20)
-    print(select_orders())
+    #print(select_orders())
+    print('*'*20)
+    print(date.today())
+    print(create_order(1,'79091234652',123,date.fromisoformat("2024-12-12"),date.fromisoformat("2024-12-15"),1))

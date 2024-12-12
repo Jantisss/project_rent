@@ -73,7 +73,7 @@ phoneInput.addEventListener('input', function (e) {
       formattedValue += char;
     }
   }
-  
+
   input.value = formattedValue;
   input.selectionEnd = sel_end ? sel_end : input.selectionEnd;
   console.log("END", input.selectionEnd)
@@ -107,7 +107,8 @@ async function fetchCarBrands() {
     models = json_2_bm(json_q)[1];
     console.log(brands, models)
     populateBrands(brands);
-    populateModels(models);
+    // populateModels(models);
+    populateModels(json_q);
     populateCars(json_q);
     populateOffice(json_pickup);
 
@@ -132,14 +133,16 @@ function populateBrands(brands) {
   });
 }
 
-function populateModels(models) {
+function populateModels(data) {
   modelSelect.innerHTML = '<option>Выберите модель</option>'; // Сбрасываем содержимое
   modelSelect2.innerHTML = '<option>Выберите модель</option>'; // Сбрасываем содержимое
-  models.forEach((model) => {
+  data.forEach((dat) => {
     const option = document.createElement("option");
     const option2 = document.createElement("option");
-    option.textContent = model; // Отображаемое имя марки
-    option2.textContent = model; // Отображаемое имя марки
+    option.textContent = `${dat[3]}, reg: ${dat[2]}`; // Отображаемое имя марки
+    option.value = dat[0];
+    option2.textContent = `${dat[3]}, reg: ${dat[2]}`; // Отображаемое имя марки
+    option2.value = dat[0];
     modelSelect.appendChild(option);
     modelSelect2.appendChild(option2);
   });
@@ -150,7 +153,7 @@ function populateOffice(office) {
   
   office.forEach((office) => {
     const option = document.createElement("option");
-    
+    option.value = office[0];
     option.textContent = `${office[0]}. ${office[1]}, ${office[4]}`; // Отображаемое названия офиса
     officeSelect.appendChild(option);
     
@@ -164,12 +167,15 @@ function populateCars(data) {
     //carsList.removeChild()
     
     const carCard = document.createElement("div");
+    carCard.id = car[0]
+    
     carCard.classList.add("border", "p-4", "rounded-md");
     carCard.innerHTML = `
       <img src='static/images/${car[1]}.png' alt=${car[3]} class="w-full h-[200px] object-cover rounded-md mb-4">
       <h4 class="text-lg text-neutral-950">${car[4]} ${car[3]}</h4>
       <p class="text-neutral-600">VIN: ${car[1]}</p>
       <p class="text-neutral-600">Рег. номер: ${car[2]}</p>
+      <p id="cost_car_list_${car[0]}" value = ${car[6]} class="text-neutral-600">Стоимость/день: ${car[6]}</p>
       <p class="${car[5] === 'Available' ? 'text-green-500' : 'text-red-500'}">${car[5] === 'Available' ? "Доступно" : "Занято"}</p>
     `;
     
@@ -230,7 +236,7 @@ function filterCars_model(data) {
 
   } else {
     filtered_models = modelsItem.filter(car => car[3] === select_model);
-    console.log("bbb", filtered_models);
+    console.log("bbb", filtered_models, brandSelect.value);
   }
   
   return filtered_models;
@@ -273,3 +279,90 @@ function filter(data, flag) {
 // Загружаем данные при загрузке страницы
 document.addEventListener("DOMContentLoaded", fetchCarBrands);
 
+document.getElementById('order-form').addEventListener('submit', async function(event) {
+  event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+  // Получаем значения из полей формы
+  const carSelect = document.getElementById('model-select2');
+  const carId = carSelect.value;
+  const dateStart = document.getElementById('start-date').value;
+  const dateEnd = document.getElementById('end-date').value;
+  const officeSelect = document.getElementById('office-select');
+  const officeId = officeSelect.value;
+  const phoneNumber = document.getElementById('phone-number').value;
+
+  // Валидация данных (дополнительно)
+  if (!carId || !dateStart || !dateEnd || !officeId || !phoneNumber) {
+    displayMessage('Пожалуйста, заполните все поля формы.', 'error');
+    return;
+  }
+
+  // Допустим, user_id получен из сессии или другого источника
+  const userId = getUserId(phoneNumber); // Вам нужно реализовать эту функцию
+
+  // Определите стоимость за день (например, на основе выбранного автомобиля)
+  const costDay = getCostPerDay(carId); // Вам нужно реализовать эту функцию
+
+  // Создаем объект данных для отправки
+  const orderData = {
+    car_id: parseInt(carId),
+    user_id: parseInt(userId),
+    cost_day: parseFloat(costDay),
+    date_s: dateStart,
+    date_e: dateEnd,
+    office_id: parseInt(officeId)
+  };
+
+  try {
+    console.log('test', JSON.stringify(orderData))
+    const response = await fetch(apiUrl.concat("create_order"), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    
+
+    if (response.ok) {
+      const result = await response.json();
+      displayMessage(result.message, 'success');
+      // Дополнительно: сбросить форму
+      document.getElementById('order-form').reset();
+    } else {
+      const error = await response.json();
+      displayMessage(error.detail || 'Ошибка при создании заказа.', 'error');
+    }
+  } catch (error) {
+    console.error('Ошибка:', error);
+    displayMessage('Произошла ошибка при отправке запроса.', 'error');
+  }
+});
+
+// Функция для отображения сообщений пользователю
+function displayMessage(message, type) {
+  const messageDiv = document.getElementById('message');
+  messageDiv.textContent = message;
+  messageDiv.className = ''; // Сброс классов
+  if (type === 'success') {
+    messageDiv.classList.add('text-green-500');
+  } else if (type === 'error') {
+    messageDiv.classList.add('text-red-500');
+  }
+}
+
+// Пример функции для получения user_id
+function getUserId(Number) {
+  
+  // Реализуйте логику получения ID пользователя, например, из куки или локального хранилища
+  // Для примера вернем фиксированное значение
+  return Number.replace(/\D/g, '');
+}
+
+// Пример функции для получения стоимости за день
+function getCostPerDay(carId) {
+  car = document.getElementById(`cost_car_list_${carId}`);
+  console.log("cost",car, car.getAttribute('value'), `cost_car_list_${carId}`);
+  return car.getAttribute('value');
+}

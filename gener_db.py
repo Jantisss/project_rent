@@ -44,11 +44,11 @@ session.commit()
 map(session.refresh, [status_car1, status_car2, status_car3])
 
 # Добавляем автомобили
-car1 = cars(vin_code="WBAXXXXXXXXX12345", car_reg_plate="А123ВС77", status_id=status_car1.status_id, models_id=model2.id)
-car2 = cars(vin_code="WDBXXXXXXXX67890", car_reg_plate="К456НТ99", status_id=status_car2.status_id, models_id=model3.id)
-car3 = cars(vin_code="JTEXXXXXXXXX11223", car_reg_plate="О789МР78", status_id=status_car1.status_id, models_id=model1.id)
-car4 = cars(vin_code="WAUXXXXXXXXX33456", car_reg_plate="В123КХ47", status_id=status_car1.status_id, models_id=model4.id)
-car5 = cars(vin_code="WVWXXXXXXXX55678", car_reg_plate="С456МТ01", status_id=status_car3.status_id, models_id=model5.id)
+car1 = cars(vin_code="WBAXXXXXXXXX12345", car_reg_plate="А123ВС77", status_id=status_car1.status_id, models_id=model2.id, cost_day=123)
+car2 = cars(vin_code="WDBXXXXXXXX67890", car_reg_plate="К456НТ99", status_id=status_car2.status_id, models_id=model3.id, cost_day=132)
+car3 = cars(vin_code="JTEXXXXXXXXX11223", car_reg_plate="О789МР78", status_id=status_car1.status_id, models_id=model1.id, cost_day=12)
+car4 = cars(vin_code="WAUXXXXXXXXX33456", car_reg_plate="В123КХ47", status_id=status_car1.status_id, models_id=model4.id, cost_day=32)
+car5 = cars(vin_code="WVWXXXXXXXX55678", car_reg_plate="С456МТ01", status_id=status_car3.status_id, models_id=model5.id, cost_day=321)
 
 session.add_all([car1, car2, car3, car4, car5])
 session.commit()

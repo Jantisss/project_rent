@@ -50,7 +50,7 @@
 
         <section>
           <h3 class="text-xl text-neutral-950">Оформление аренды</h3>
-          <form class="grid gap-4 mt-6">
+          <form id="order-form"   class="grid gap-4 mt-6">
             <select id = "model-select2" class="p-2 rounded-md bg-neutral-100 w-[300px] text-neutral-950">
               <option>Выберите автомобиль</option>
               <option>BMW X5</option>
@@ -60,10 +60,12 @@
             <div class="grid grid-cols-2 gap-4">
               <input
                 type="date"
+                id="start-date"
                 class="p-2 rounded-md bg-neutral-100 text-neutral-950"
               />
               <input
                 type="date"
+                id="end-date"
                 class="p-2 rounded-md bg-neutral-100 text-neutral-950"
               />
             </div>
@@ -73,7 +75,6 @@
               <option>Санкт-Петербург</option>
               <option>Казань</option>
             </select>
-
             
             <input
               type="text"
@@ -89,6 +90,7 @@
               Подтвердить заказ
             </button>
           </form>
+          <div id="message" class="mt-4"></div>
         </section>
       </main>
     </div>

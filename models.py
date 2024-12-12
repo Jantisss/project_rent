@@ -3,6 +3,8 @@ from datetime import datetime, date, timedelta
 from sqlmodel import Field, SQLModel, create_engine, Session
 from sqlalchemy import Column, String, ForeignKey
 from psycopg2 import Error, connect
+from pydantic import BaseModel
+
 
 class users(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -56,5 +58,11 @@ class office(SQLModel, table=True):
     name : str
     adress: str    
 
-
+class OrderCreate(BaseModel):
+    car_id: int
+    user_id: int
+    cost_day: float = 0
+    date_s: Optional[date] = None
+    date_e: Optional[date] = None
+    office_id: int = 1
 
