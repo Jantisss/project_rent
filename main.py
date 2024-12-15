@@ -69,7 +69,7 @@ def create_new_order(order: OrderCreate):
     try:
         create_order(
             car_id=order.car_id,
-            user_id=order.user_id,
+            user_tel=order.user_tel,
             cost_day=order.cost_day,
             date_s=order.date_s,
             date_e=order.date_e,
@@ -77,6 +77,6 @@ def create_new_order(order: OrderCreate):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    return {"message": f"Order created for car ID {order.car_id}, user ID {order.user_id}."}
+    return {"message": f"Order created for car ID {order.car_id}, user ID {order.user_tel}."}
 
 

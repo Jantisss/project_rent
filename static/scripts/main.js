@@ -113,8 +113,8 @@ async function fetchCarBrands() {
     populateOffice(json_pickup);
 
     brandSelect.addEventListener('change', () => filter(json_q, 'b'))
-    modelSelect.addEventListener('change', () => filter(json_q), 'm')
-    statusSelect.addEventListener('change', () => filter(json_q), 's')
+    modelSelect.addEventListener('change', () => filter(json_q, 'm'))
+    statusSelect.addEventListener('change', () => filter(json_q, 's'))
 
     
   } catch (error) {
@@ -212,8 +212,10 @@ function filterCars_brand(data, flag) {
 
   }
   if (flag) {
-    filtered_models = json_2_bm(filtered_brands)[1];
-    populateModels(filtered_models);
+    // filtered_models = json_2_bm(filtered_brands)[1];
+    // populateModels(filtered_models);
+    filterCars_model(filtered_brands);
+    console.log("flagactiv");
   }
   
   return filtered_brands;
@@ -237,8 +239,9 @@ function filterCars_model(data) {
   } else {
     filtered_models = modelsItem.filter(car => car[3] === select_model);
     console.log("bbb", filtered_models, brandSelect.value);
-  }
+  } 
   
+  populateModels(filtered_models);
   return filtered_models;
 }
 
@@ -267,14 +270,15 @@ function filterStatus(data) {
 
 function filter(data, flag) {
   let fl_b = false;
-  console.log(flag);
+  console.log("flag = ", flag);
   if (flag === 'b') fl_b = true;
   let filtered_brand = filterCars_brand(data, fl_b);
-  let filtered_models = filterCars_model(filtered_brand);
+  let filtered_status = filterStatus(filtered_brand);
+  let filtered_models = filterCars_model(filtered_status);
   
-  let filtered_status = filterStatus(filtered_models);
+ 
   
-  populateCars(filtered_status);
+  populateCars(filtered_models);
 }
 // Загружаем данные при загрузке страницы
 document.addEventListener("DOMContentLoaded", fetchCarBrands);
@@ -306,7 +310,7 @@ document.getElementById('order-form').addEventListener('submit', async function(
   // Создаем объект данных для отправки
   const orderData = {
     car_id: parseInt(carId),
-    user_id: parseInt(userId),
+    user_tel: parseInt(userId),
     cost_day: parseFloat(costDay),
     date_s: dateStart,
     date_e: dateEnd,

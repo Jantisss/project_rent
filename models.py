@@ -60,7 +60,7 @@ class office(SQLModel, table=True):
 
 class OrderCreate(BaseModel):
     car_id: int
-    user_id: int
+    user_tel: int
     cost_day: float = 0
     date_s: Optional[date] = None
     date_e: Optional[date] = None

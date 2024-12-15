@@ -133,7 +133,7 @@ def create_order(car_id, user_tel, cost_day = 0,
         
         print("res_user", result_user, )
         if result_user == None:
-            create_user(user_id)
+            create_user(user_tel)
         result_user = session.exec(statement_user).first()
         user_id = result_user.id
         
