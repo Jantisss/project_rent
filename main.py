@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI,HTTPException
 from models import *
-from selects import *
+from requests import *
 from fastapi.middleware.cors import CORSMiddleware
 
 
