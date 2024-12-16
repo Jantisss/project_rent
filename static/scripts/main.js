@@ -237,8 +237,8 @@ function filterCars_model(data) {
     console.log("aaa", filtered_models);
 
   } else {
-    filtered_models = modelsItem.filter(car => car[3] === select_model);
-    console.log("bbb", filtered_models, brandSelect.value);
+    filtered_models = modelsItem.filter(car => car[0] == select_model);
+    console.log("bbb", filtered_models, brandSelect.value, modelSelect.value, modelsItem);
   } 
   
   populateModels(filtered_models);
